@@ -3,21 +3,21 @@ def input():
 
 
 def main(n):
-    for space in range(0, n // 2 + 1):
-        line = ''
-        for i in range(space):
-            line += ' '
-        for i in range(n - 1 - (space * 2)):
-            line += '*'
-        line += '$'
-        print line
-    for space in range(n // 2 - 1, -1, -1):
-        line = ''
-        for i in range(space):
-            line += ' '
-        line += '$'
-        for i in range(0, 2 * (n // 2 - space), 1):
-            line += '*'
+    lengths_space = [0] * n # Create a list which has length of n
+    for i in range(n // 2 + 1):
+        lengths_space[i] = i
+        lengths_space[n - i - 1] = i
+
+    for line_index in range(n):
+        length_space = lengths_space[line_index]
+        length_asterisks = n - 2 * length_space
+
+        line = ' ' * length_space + '*' * length_asterisks
+
+        # Replace an asterisks with dollar
+        dollar_index = n - line_index - 1
+        line = line[:dollar_index] + '$' + line[dollar_index + 1:]
+
         print line
 
 
