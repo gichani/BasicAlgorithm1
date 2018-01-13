@@ -3,48 +3,37 @@ def input():
 
 
 def main(input_v):
-    def make_row(input_v):
-        row = []
+    def make_rows(input_v):
+        rows = []
         for i in range(2 * input_v + 1):
-            row.append([''])
-        return row
+            rows.append([''])
+        return rows
 
-    def line_star(row, input_v):
-        for i in range(len(row)):
-            row[i] += '*'
+    def line_star_with_following_spaces(row, index, input_v):
+        row.append('*')
+        for i in range(index - 1):
+            row.append(' ')
 
-    def space_after_line_star(row, input_v):
-        for i in range(1, len(row), 1):
-            for j in range(i - 1):
-                row[i] += ' '
-        return row
+    def stair_star_with_following_spaces(row, index, input_v):
+        if index > 0 and (index <= 2 * input_v - 1):
+            row.append('*')
+        for i in range(2 * input_v - index - 1):
+            row.append(' ')
+    
+    rows = make_rows(input_v)
+    while len(rows[1]) < 61 + input_v:
+        for row in rows:
+            index = rows.index(row)
 
-    def stair_star(row, input_v):
-        for i in range(1, len(row) - 1):
-            row[i] += '*'
-        return row
-
-    def space_after_stair_star(row, input_v):
-        for i in range(len(row)):
-            for j in range(2 * input_v - i - 1):
-                row[i] += ' '
-        return row
-
-    row = make_row(input_v)
-    current_column = 0
-    while current_column < 61 + input_v:
-        line_star(row, input_v)
-        space_after_line_star(row, input_v)
-        stair_star(row, input_v)
-        space_after_stair_star(row, input_v)
-        current_column = len(row[1])
+            line_star_with_following_spaces(row, index, input_v)
+            stair_star_with_following_spaces(row, index, input_v)
 
     result = []
     if input_v >= 10:
         high_limit = 20 + input_v - 10
         low_limit = input_v - 10
         for i in range(low_limit, high_limit + 1):
-            result.append(row[i])
+            result.append(rows[i])
     else:
         # high_limit = input_v * 2
         # low_limit = -1
@@ -52,8 +41,8 @@ def main(input_v):
             result.append('')
             for j in range(2 * input_v + 60):
                 result[-1] += ' '
-        for i in range(len(row)):
-            result.append(row[i])
+        for i in range(len(rows)):
+            result.append(rows[i])
         for i in range(10 - input_v):
             result.append('')
             for j in range(2 * input_v + 60):
